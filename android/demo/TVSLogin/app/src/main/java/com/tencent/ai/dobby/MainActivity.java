@@ -25,11 +25,12 @@ import com.tencent.ai.tvs.info.QQInfoManager;
 import com.tencent.ai.tvs.info.QQOpenInfoManager;
 import com.tencent.ai.tvs.info.UserInfoManager;
 import com.tencent.ai.tvs.info.WxInfoManager;
+import com.tencent.ai.tvs.udp.UDPClient;
 import com.tencent.connect.common.Constants;
 
 import oicq.wlogin_sdk.request.WtloginHelper;
 
-public class MainActivity extends AppCompatActivity implements AuthorizeListener, BindingListener {
+public class MainActivity extends AppCompatActivity implements AuthorizeListener, BindingListener, UDPClient.Callback {
 
 
     private static final String appidWx = "wxd077c3460b51e427";
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
     private static final long appidQQ = 1600001268L;
 
     private LoginProxy proxy;
+
+    // 内部使用
     private LoginProxy innerProxy;
 
     private WxInfoManager wxInfoManager;
@@ -67,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
     private Button devicebindButton;
     private TextView devicebindTextView;
 
-    private LinearLayout wxTokenLayout, qqopenTokenLayout;
-    private TextView wxATTextView, wxRTTextView, qqopenATTextView;
+    private Button devicescanButton;
+    private TextView devicescanTextView;
+
+    private LinearLayout wxTokenLayout, qqopenTokenLayout, qqTokenLayout;
+    private TextView wxATTextView, wxRTTextView, qqopenATTextView, qqATTextView;
 
     private static final ELoginPlatform TEST_PLATFORM = ELoginPlatform.WX;
 
@@ -266,8 +272,12 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
             case AuthorizeListener.QQOPEN_TVSIDRECV_TYPE:
                 qqOpenLoginBtn.setEnabled(false);
                 break;
+            case AuthorizeListener.QQ_TVSIDRECV_TYPE:
+                qqLoginBtn.setEnabled(false);
+                break;
             case AuthorizeListener.TOKENVERIFY_TYPE:
                 qqOpenLoginBtn.setEnabled(false);
+                qqLoginBtn.setEnabled(false);
                 break;
             case AuthorizeListener.USERINFORECV_TYPE:
                 UserInfoManager mgr = UserInfoManager.getInstance();
@@ -311,8 +321,12 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
             case AuthorizeListener.QQOPEN_TVSIDRECV_TYPE:
                 qqOpenLoginBtn.setEnabled(true);
                 break;
+            case AuthorizeListener.QQ_TVSIDRECV_TYPE:
+                qqLoginBtn.setEnabled(true);
+                break;
             case AuthorizeListener.TOKENVERIFY_TYPE:
                 qqOpenLoginBtn.setEnabled(true);
+                qqLoginBtn.setEnabled(true);
                 break;
             case BindingListener.GET_CAPTCHA_TYPE:
                 getCaptchaTextView.setText("Captcha Send Error");
@@ -339,6 +353,11 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
             case AuthorizeListener.AUTH_TYPE:
                 break;
         }
+    }
+
+    @Override
+    public void onUDPResponse(String ip, int req, String data) {
+
     }
 
     private void findViewsById() {
@@ -376,12 +395,18 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
         devicebindButton = (Button) findViewById(R.id.devicebindbtn);
         devicebindTextView = (TextView) findViewById(R.id.devicebindbtntextview);
 
+        devicescanButton = (Button) findViewById(R.id.devicescanbtn);
+        devicebindTextView = (TextView) findViewById(R.id.devicescantext);
+
         wxTokenLayout = (LinearLayout) findViewById(R.id.wxtokenlayout);
         wxATTextView = (TextView)findViewById(R.id.accesstokenid);
         wxRTTextView = (TextView)findViewById(R.id.refreshtokenid);
 
         qqopenTokenLayout = (LinearLayout) findViewById(R.id.qqopentokenlayout);
         qqopenATTextView = (TextView)findViewById(R.id.accesstokenidqqopen);
+
+        qqTokenLayout = (LinearLayout) findViewById(R.id.qqtokenlayout);
+        qqATTextView = (TextView) findViewById(R.id.accesstokenidqq);
     }
 
     private void registerProxy() {
@@ -438,6 +463,11 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
         if (!"".equals(qqOpenInfoManager.accessToken)) {
             qqopenTokenLayout.setVisibility(View.VISIBLE);
             qqopenATTextView.setText("AccessToken:" + qqOpenInfoManager.accessToken);
+        }
+
+        if (!"".equals(qqInfoManager.accessToken)) {
+            qqTokenLayout.setVisibility(View.VISIBLE);
+            qqATTextView.setText("AccessToken: " + qqInfoManager.accessToken);
         }
     }
 }
