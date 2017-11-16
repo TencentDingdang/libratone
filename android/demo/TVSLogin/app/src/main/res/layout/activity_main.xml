@@ -221,7 +221,7 @@
         android:id="@+id/devicescanlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_below="@id/devicebindlayout">
         <Button
             android:id="@+id/devicescanbtn"
@@ -234,11 +234,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/getmemberstatuslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/devicescanlayout">
+        <Button
+            android:id="@+id/getmemberstatusbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Get Member Status"/>
+        <TextView
+            android:id="@+id/getmemberstatustext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/wxtokenlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/devicescanlayout"
+        android:layout_below="@id/getmemberstatuslayout"
         android:orientation="vertical"
         android:visibility="gone">
         <TextView
