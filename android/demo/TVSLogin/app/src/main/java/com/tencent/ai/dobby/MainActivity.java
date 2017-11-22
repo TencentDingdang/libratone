@@ -468,6 +468,11 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
         proxy = LoginProxy.getInstance(appidWx, appidQQOpen);
         innerProxy = LoginProxy.getInstance(appidWx, appidQQ);
 
+        /*-------------------------------------Use CustomApplication Context Start-------------------------------------*/
+//      proxy = LoginProxy.getInstance(appidWx, appidQQOpen, getApplicationContext());
+//      innerProxy = LoginProxy.getInstance(appidWx, appidQQ, getApplicationContext());
+        /*-------------------------------------Use CustomApplication Context End-------------------------------------*/
+
         wxInfoManager = (WxInfoManager) proxy.getInfoManager(ELoginPlatform.WX);
         qqOpenInfoManager = (QQOpenInfoManager) proxy.getInfoManager(ELoginPlatform.QQOpen);
         qqInfoManager = (QQInfoManager) innerProxy.getInfoManager(ELoginPlatform.QQ);
