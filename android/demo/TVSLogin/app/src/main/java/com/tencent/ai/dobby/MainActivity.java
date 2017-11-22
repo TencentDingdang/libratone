@@ -1,6 +1,8 @@
 package com.tencent.ai.dobby;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
 
     private LoginProxy proxy;
 
-    // ????
+    // 内部使用
     private LoginProxy innerProxy;
 
     private WxInfoManager wxInfoManager;
@@ -388,7 +390,12 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
         }
         else if (req == UDPClient.REQ_DEVICE_INFO) {
             deviceManager = new DeviceManager(ip, data);
-            devicescanTextView.setText(deviceManager.toString());
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    devicescanTextView.setText(deviceManager.toSimpleString());
+                }
+            });
         }
         else if (req == UDPClient.SET_ACCOUNT_INFO) {
             BindManager.getInstance().bind(ip, "", data, new BindManager.Callback() {
