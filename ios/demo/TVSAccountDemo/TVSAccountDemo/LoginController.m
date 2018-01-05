@@ -112,7 +112,7 @@
 - (IBAction)onClickBtnUserCenter:(id)sender {
     TVSMember* uc = [TVSMember new];
     [uc setDeviceId:@"mDeviceId" deviceType:@"mDeviceType" deviceOEM:@"mDeviceOEM"];
-    [uc enterPage:TVSPageTypeMember fromViewController:self title:@"个人中心"];
+    [uc enterPage:TVSPageTypeMember fromViewController:self title:@"个人中心" delegate:nil];
 
 //    if ([TVSAccount shared].isWXTokenExist || [TVSAccount shared].isQQTokenExist) {//必须先登录
 //        NSString* phone= @"13987654321";
