@@ -371,11 +371,7 @@ public class MainActivity extends AppCompatActivity implements AuthorizeListener
         toSmartLinkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SmartLinkActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("loginplatform", TEST_PLATFORM.ordinal());
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+
             }
         });
 
